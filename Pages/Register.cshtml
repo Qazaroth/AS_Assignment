@@ -1,4 +1,76 @@
 ﻿@page
 @model AS_Assignment.Pages.RegisterModel
 @{
+    ViewData["Title"] = "Register";
+}
+<div class="modal-body row">
+    <!-- Login Form -->
+    <div class="col-md-6">
+        <form method="post">
+            <fieldset>
+                <h2>@ViewData["Title"]</h2>
+                @if (Model.hasError)
+                {
+                    <p class="text-danger">An account with the email of <b>@Model.user.email</b> already exists! Try logging in <a href="/Login">here</a>!</p>
+                }
+                <div class="form-group">
+                    <label for="inpNRIC" class="form-label mt-4">NRIC</label>
+                    <input type="text" class="form-control" id="inpNRIC" asp-for="user.NRIC" />
+                    <span asp-validation-for="user.NRIC" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="inpFirstName" class="form-label mt-4">First Name</label>
+                    <input type="text" class="form-control" id="inpFirstName" asp-for="user.firstName" />
+                    <span asp-validation-for="user.firstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="inpLastName" class="form-label mt-4">Last Name</label>
+                    <input type="text" class="form-control" id="inpLastName" asp-for="user.lastName" />
+                    <span asp-validation-for="user.lastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail" class="form-label mt-4">Email address</label>
+                    <input type="email" class="form-control" id="inputEmail" asp-for="user.email" />
+                    <span asp-validation-for="user.email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="inpBirthDate" class="form-label mt-4">Birth Date</label>
+                    <input type="date" class="form-control" id="inpBirthDate" asp-for="user.birthDate" />
+                    <span asp-validation-for="user.birthDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="inpPass" class="form-label mt-4">Password</label>
+                    <input type="password" class="form-control" id="inpPass" onchange="matchPass();" asp-for="user.password" />
+                    <span asp-validation-for="user.password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="inpCfmPass" class="form-label mt-4">Confirm Password</label>
+                    <input type="password" class="form-control" id="inpCfmPass" onchange="matchPass();" />
+                    <span id="cfmPassError" class="text-danger"></span>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">Register</button>
+            </fieldset>
+        </form>
+    </div>
+    <!-- Show some other content -->
+    <div class="col-md-6">
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+        function matchPass()
+        {
+            let pw = document.getElementById("inpPass");
+            let pw2 = document.getElementById("inpCfmPass");
+
+            let cpe = document.getElementById("cfmPassError");
+
+            if (pw.value != pw2.value) cpe.innerHTML = "Passwords do not match!";
+            else cpe.innerHTML = "";
+        }
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
