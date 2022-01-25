@@ -57,7 +57,7 @@ namespace AS_Assignment
                 app.UseHsts();
             }
 
-            app.UseStatusCodePagesWithReExecute("/ErrorCode", "?code={0}");
+            app.UseStatusCodePagesWithReExecute("/errors/ErrorCode", "?code={0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

@@ -12,7 +12,7 @@ namespace AS_Assignment.Models
         public int id { get; set; }
         [Required(ErrorMessage = "Email Address is required!"), DataType(DataType.EmailAddress), EmailAddress]
         public String email { get; set; }
-        [Required(ErrorMessage = "Password is required!"), DataType(DataType.Password), MinLength(12, ErrorMessage = "Password must be at least 12 characters long.")]
+        [Required(ErrorMessage = "Password is required!"), RegularExpression("^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{12,}$", ErrorMessage = "Password is not strong enough! Password requires 2 Capital letters, 3 small letters, 2 digits, a special character, and has to be at least 12 characters long!"), DataType(DataType.Password), MinLength(12, ErrorMessage = "Password must be at least 12 characters long.")]
         public String password { get; set; }
         [Required, RegularExpression("^[STFG]\\d{7}[A-Z]$", ErrorMessage = "NRIC is not valid.")]
         public String NRIC { get; set; }
