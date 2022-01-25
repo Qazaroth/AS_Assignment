@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Login";
 }
+<head>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+</head>
 <div class="modal-body row">
     <!-- Login Form -->
     <div class="col-md-6">
@@ -28,6 +31,11 @@
                 </div>
                 <br />
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <br /><br />
+                <div class="g-recaptcha" data-sitekey=""></div>
+                <!--
+                <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" />
+                -->
             </fieldset>
         </form>
     </div>
