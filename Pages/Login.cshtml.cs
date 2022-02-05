@@ -29,6 +29,8 @@ namespace AS_Assignment.Pages.Shared
         public String error { get; set; }
         [BindProperty]
         public object e { get; set; }
+        [BindProperty]
+        public int tries { get; set; }
 
         private readonly UserService _ctx;
 
@@ -43,6 +45,12 @@ namespace AS_Assignment.Pages.Shared
 
         public IActionResult OnPost()
         {
+            if (tries >= 3)
+            {
+                error = "Login temporarily disabled. Try again in 5 minutes...";
+                return Page();
+            }    
+
             if (CaptchaPassed())
             {
                 string p = this.password;
@@ -69,6 +77,7 @@ namespace AS_Assignment.Pages.Shared
                     }
                     else
                     {
+                        tries += 1;
                         error = "Invalid account details. Please try again!";
                         return Page();
                     }
@@ -84,7 +93,7 @@ namespace AS_Assignment.Pages.Shared
         {
             HttpClient c = new HttpClient();
 
-            var res = c.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret=secret key&response={Request.Form["g-recaptcha-response"]}").Result;
+            var res = c.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret=6Lc-TTceAAAAAMV-eygC33n9uC1QFy2u1-Lj2iJQ&response={Request.Form["g-recaptcha-response"]}").Result;
 
             if (res.StatusCode != HttpStatusCode.OK)
                 return false;

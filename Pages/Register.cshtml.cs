@@ -43,6 +43,9 @@ namespace AS_Assignment.Pages
         {
             hasError = false;
             string pwd = user.password;
+            string cc = user.creditCard;
+            string cv = user.cvc;
+
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
 
             byte[] saltByte = new byte[8];
@@ -63,6 +66,8 @@ namespace AS_Assignment.Pages
 
             user.password = finalHash;
             user.salt = salt;
+            user.creditCard = Convert.ToBase64String(Encoding.UTF8.GetBytes(cc));
+            user.cvc = Convert.ToBase64String(Encoding.UTF8.GetBytes(cv));
 
             user.dateTimeRegistered = DateTime.Now;
 

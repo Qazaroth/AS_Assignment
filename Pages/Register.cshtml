@@ -29,6 +29,16 @@
                     <span asp-validation-for="user.lastName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
+                    <label for="inpLastName" class="form-label mt-4">Credit Card Number:</label>
+                    <input type="text" class="form-control" id="inpLastName" asp-for="user.creditCard" />
+                    <span asp-validation-for="user.creditCard" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label for="inpLastName" class="form-label mt-4">CVC:</label>
+                    <input type="text" class="form-control" id="inpLastName" asp-for="user.cvc" />
+                    <span asp-validation-for="user.cvc" class="text-danger"></span>
+                </div>
+                <div class="form-group">
                     <label for="inputEmail" class="form-label mt-4">Email address</label>
                     <input type="email" class="form-control" id="inputEmail" asp-for="user.email" />
                     <span asp-validation-for="user.email" class="text-danger"></span>

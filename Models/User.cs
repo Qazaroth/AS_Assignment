@@ -20,6 +20,10 @@ namespace AS_Assignment.Models
         public String firstName { get; set; }
         [Required(ErrorMessage = "Last Name is required!")]
         public String lastName { get; set; }
+        [Required, RegularExpression("\\b(?:\\d[-]*?){13,16}\\b", ErrorMessage = "Credit Card Number is not valid.")]
+        public String creditCard { get; set; }
+        [Required, RegularExpression("^[0-9]{3,4}$", ErrorMessage = "CVC Number is not valid.")]
+        public String cvc { get; set; }
         [Required(ErrorMessage = "Date of Birth is required!"), DataType(DataType.Date)]
         public DateTime birthDate { get; set; }
         [Required, DataType(DataType.DateTime)]
