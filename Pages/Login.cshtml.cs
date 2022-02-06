@@ -34,6 +34,8 @@ namespace AS_Assignment.Pages.Shared
 
         private readonly UserService _ctx;
 
+        private string secret = "secretkey";
+
         public LoginModel(UserService _ctx)
         {
             this._ctx = _ctx;
@@ -93,7 +95,7 @@ namespace AS_Assignment.Pages.Shared
         {
             HttpClient c = new HttpClient();
 
-            var res = c.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret=6Lc-TTceAAAAAMV-eygC33n9uC1QFy2u1-Lj2iJQ&response={Request.Form["g-recaptcha-response"]}").Result;
+            var res = c.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={Request.Form["g-recaptcha-response"]}").Result;
 
             if (res.StatusCode != HttpStatusCode.OK)
                 return false;
