@@ -29,12 +29,8 @@ namespace AS_Assignment.Pages.Shared
         public String error { get; set; }
         [BindProperty]
         public object e { get; set; }
-        [BindProperty]
-        public int tries { get; set; }
 
         private readonly UserService _ctx;
-
-        private string secret = "secretkey";
 
         public LoginModel(UserService _ctx)
         {
@@ -47,11 +43,24 @@ namespace AS_Assignment.Pages.Shared
 
         public IActionResult OnPost()
         {
-            if (tries >= 3)
+            /**if (tries >= 3)
             {
                 error = "Login temporarily disabled. Try again in 5 minutes...";
                 return Page();
-            }    
+            }  **/
+            User a = _ctx.getUserByEmail(email);
+
+            if (a != null && a.lockedOut == 1 && a.lockEnd == DateTime.Now)
+            {
+                a.lockEnd = null;
+                a.lockedOut = 0;
+                a.tries = 0;
+            }
+            if (a != null && a.lockedOut == 1)
+            {
+                error = "Login temporarily disabled. Try again later...";
+                return Page();
+            }
 
             if (CaptchaPassed())
             {
@@ -70,7 +79,8 @@ namespace AS_Assignment.Pages.Shared
 
                     if (userHash.Equals(hash))
                     {
-                        User u = getUser(email);
+                        User u = a;
+                        _ctx.updateUser(u);
 
                         HttpContext.Session.SetInt32("SSID", u.id);
                         HttpContext.Session.SetString("SSEmail", u.email);
@@ -79,8 +89,18 @@ namespace AS_Assignment.Pages.Shared
                     }
                     else
                     {
-                        tries += 1;
-                        error = "Invalid account details. Please try again!";
+                        if (a.tries >= 3)
+                        {
+                            a.lockEnd = DateTime.Now.AddMinutes(5);
+                            a.lockedOut = 1;
+                            error = "Maximum attempt reached, try again later!";
+                        }
+                        else
+                        {
+                            a.tries += 1;
+                            error = "Invalid account details. Please try again!";
+                        }
+                        _ctx.updateUser(a);
                         return Page();
                     }
                 }
@@ -95,7 +115,7 @@ namespace AS_Assignment.Pages.Shared
         {
             HttpClient c = new HttpClient();
 
-            var res = c.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret={secret}&response={Request.Form["g-recaptcha-response"]}").Result;
+            var res = c.GetAsync($"https://www.google.com/recaptcha/api/siteverify?secret=secret&response={Request.Form["foo"]}").Result;
 
             if (res.StatusCode != HttpStatusCode.OK)
                 return false;
@@ -108,7 +128,6 @@ namespace AS_Assignment.Pages.Shared
 
             return true;
         }
-
         protected User getUser(String email)
         {
             List<User> users = _ctx.getAllUsers();

@@ -63,6 +63,7 @@ namespace AS_Assignment
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSession();

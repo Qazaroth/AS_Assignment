@@ -3,9 +3,14 @@
 @{
     ViewData["Title"] = "Login";
 }
-<head>
-    <script src="https://www.google.com/recaptcha/api.js"></script>
-</head>
+    <script src="https://www.google.com/recaptcha/api.js?render=site"></script>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute("site", { action: "homepage" }).then(function (token) {
+                document.getElementById("foo").value = token;
+            });
+        })
+    </script>
 <div class="modal-body row">
     <!-- Login Form -->
     <div class="col-md-6">
@@ -32,10 +37,10 @@
                 <br />
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <br /><br />
-                <div class="g-recaptcha" data-sitekey="sitekey"></div>
-                <!--
-                <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response" />
+                <!--<div class="g-recaptcha" data-sitekey=""></div>
                 -->
+
+                <input type="hidden" id="foo" name="foo" />
             </fieldset>
         </form>
     </div>
@@ -46,6 +51,7 @@
 
 @section Scripts{
     <script type="text/javascript">
+        let k = @Model.;
         function showPass() {
             let cbChecked = document.getElementById("showPassCheck").checked;
             let pass = document.getElementById("inputPass");

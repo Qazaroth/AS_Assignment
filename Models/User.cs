@@ -29,6 +29,9 @@ namespace AS_Assignment.Models
         [Required, DataType(DataType.DateTime)]
         public DateTime dateTimeRegistered { get; set; }
         public String salt { get; set; }
+        public int lockedOut { get; set; }
+        public Nullable<DateTime> lockEnd { get; set; }
+        public int tries { get; set; }
         public byte[] avatar { get; set; }
         public int isAdmin { get; set; }
         private String roles { get; set; }

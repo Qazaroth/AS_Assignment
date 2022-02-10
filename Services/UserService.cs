@@ -72,6 +72,13 @@ namespace AS_Assignment.Services
             return false;**/
         }
 
+        public int getUserTries(string email)
+        {
+            User u = getUserByEmail(email);
+
+            return u.tries;
+        }
+
         public User getUserByID(int id)
         {
             User u = null;
