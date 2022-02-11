@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace AS_Assignment.Pages.Shared
+namespace AS_Assignment.Pages.Accounts
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
@@ -50,11 +50,12 @@ namespace AS_Assignment.Pages.Shared
             }  **/
             User a = _ctx.getUserByEmail(email);
 
-            if (a != null && a.lockedOut == 1 && a.lockEnd == DateTime.Now)
+            if (a != null && a.lockedOut == 1 && a.lockEnd <= DateTime.Now)
             {
                 a.lockEnd = null;
                 a.lockedOut = 0;
                 a.tries = 0;
+                _ctx.updateUser(a);
             }
             if (a != null && a.lockedOut == 1)
             {
